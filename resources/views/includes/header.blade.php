@@ -1,0 +1,1 @@
+<img src="{{url('assets/painel/img/logo.png')}}">
