@@ -36,8 +36,11 @@
         <div class="row">
             <div class="small-12 medium-6 columns">
                 {!! Form::label('apc_serial_pc', 'Serial PC' )!!}
-                {!! Form::select('apc_serial_pc', ['' => 'Selecione o serial do PC'] + $serial_pc, null ) !!}
+                {!! Form::select('apc_serial_pc', ['' => 'Selecione o serial do PC'] + $serial_pc, null, ['id'=>'select_pc', 'class'=>'select_pc'] ) !!}
                 <span class="validacao">{{$errors->first('apc_serial_pc')}}</span>
+                <script type="text/javascript">
+				  $(".select_pc").select2();
+				</script>
             </div>
                 <div class="small-12 medium-6 columns">
                 {!! Form::label('apc_data_registo', 'Data Registo' )!!}
