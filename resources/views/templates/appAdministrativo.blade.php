@@ -7,6 +7,7 @@
     <link href="{{ url('assets/painel/css/app.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/foundation-icons.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/dataTables.foundation.min.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/painel/css/select2-zurbfoundation5.css') }}" rel="stylesheet">
 
     <script src="{{url('assets/painel/js/vendor/jquery.js')}}"></script>
     <script src="{{url('assets/painel/js/vendor/what-input.js')}}"></script>
@@ -14,6 +15,7 @@
     <script src="{{url('assets/painel/js/app.js')}}"></script>
     <script src="{{url('assets/painel/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('assets/painel/js/dataTables.foundation.min.js')}}"></script>
+    <script src="{{url('assets/painel/js/select2.min.js')}}"></script>
 
     <meta name="_token" content="{!! csrf_token() !!}"/>
     <script>
