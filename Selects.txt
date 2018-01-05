@@ -1,0 +1,7 @@
+SELECIONANDO O TIPO DE USUARIO E A PERMISSAO (RELACAO MUITOS PARA MUITOS)
+==>> Necessidade de melhorar a SQL:
+	select * from tbl_tipo_usuario, tbl_tipo_usuario_permissao, tbl_permissao
+
+	where tbl_tipo_usuario.tpu_codigo = tbl_tipo_usuario_permissao.tpu_codigo
+
+	AND tbl_tipo_usuario_permissao.per_codigo = tbl_permissao.per_codigo

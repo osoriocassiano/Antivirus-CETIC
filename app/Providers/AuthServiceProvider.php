@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Model\Painel\PermissaoModel;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -12,9 +14,9 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [
+    /*protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-    ];
+    ];*/
 
     /**
      * Register any authentication / authorization services.
@@ -26,5 +28,22 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //
+        Gate::before(function(User $user, $ability){
+            if($user->possuiTipoUsuario('Administrador')) // Um caso em q o "possuiTipo... do user recebe uma string e nao array ou objecto"
+                return true;
+        });
+
+        $permissoes = PermissaoModel::with('tiposUsuario')->get();
+
+        foreach($permissoes as $permissao){
+
+            Gate::define($permissao->per_nome, function(User $user) use ($permissao){
+                return $user->hasAccess($permissao);
+            });
+        }
+
+
+
     }
+
 }

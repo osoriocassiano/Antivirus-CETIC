@@ -24,13 +24,14 @@ class CargoStoreUpdateFormRequest extends FormRequest
     public function rules()
 {
     return [
-        'carg_nome'=>'required',
+        'carg_nome'=>'required|alpha|numeric|min:3',
     ];
 }
 
     public function messages(){
     return [
         'carg_nome.required'=>'O campo Cargo e de preenchimento obrigatorio!',
+        'carg_nome.min' => 'O nome do cargo deve conter pelo menos dois caracteres!',
     ];
 }
 }

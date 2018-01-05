@@ -31,7 +31,7 @@ class MarcaStoreUpdateFormRequest extends FormRequest
 
     public function messages(){
         return[
-          'mar_ant_nome.required' => 'O campo marca e de preenchimento obrigatorio',
+          'mar_ant_nome.required' => 'O campo marca é de preenchimento obrigatório',
         ];
     }
 }

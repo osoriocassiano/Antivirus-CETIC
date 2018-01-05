@@ -24,25 +24,31 @@ class UsuarioSistemaStoreUpdateFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'    => 'required',
-            'us_apelido' => 'required',
+            'name'    => 'required|alpha|min:3',
+            'us_apelido' => 'required|alpha|min:3',
             'us_cargo'   => 'required',
             'us_tipo'    => 'required',
             'email'   => 'required',
             'us_usuario' => 'required',
-            'password'   => 'required',
+            'password'   => 'required|min:6',
         ];
     }
     public function messages(){
         $required = "Campo de preenchimento obrigatorio!";
         return [
-            'name.required'    => $required,
-            'us_apelido.required' => $required,
-            'us_cargo.required'   => $required,
-            'us_tipo.required'    => $required,
-            'email.required'   => $required,
-            'us_usuario.required' => $required,
-            'password.required'   => $required,
+            'name.required'    => 'O Nome é obrigatório!',
+            'name.alpha'    => 'Caracteres alfabéticos permitidos!',
+            'name.min'    => 'Permitidos pelo menos três caracteres!',
+            'us_apelido.required' => 'O Apelido é obrigatório!',
+            'us_apelido.alpha' => 'Caracteres alfabéticos permitidos!',
+            'us_apelido.min' => 'Permitidos pelo menos três caracteres!',
+            'us_cargo.required'   => 'O Cargo é obrigatório!',
+            'us_tipo.required'    => 'O Tipo de Usuario é obrigatório!',
+            'email.required'   => 'O Email é obrigatório!',
+            'us_usuario.required' => 'O Nome de Usuario de Login é obrigatório!',
+            'password.required'   => 'A Senha é obrigatória!',
+            'password.min'   => 'A Senha deve ser de pelo menos 6 caracteres!',
         ];
     }
 }
+//Todo este codigo nao esta em uso. O register controller faz o registo

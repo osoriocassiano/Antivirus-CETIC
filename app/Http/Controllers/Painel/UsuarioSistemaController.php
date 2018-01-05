@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Painel\UsuarioSistemaModel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Painel\UsuarioSistemaStoreUpdateFormRequest;
+use App\Model\Painel\PermissaoModel;
 
 class UsuarioSistemaController extends Controller
 {

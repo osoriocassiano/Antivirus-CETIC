@@ -73,7 +73,7 @@ class AntivirusController extends Controller
         $acao = $request->input('acao');
         $title = "Detalhes da Marca";
         if($acao){
-            return view('painel.antivirus.show_antivirus', compact('acao', 'show', 'title'));
+            return view('painel.antivirus.show_antivirus', compact('acao', 'show', 'title')); // Se acao for true nao mostra o botao apagar, mostra apenas os detalhes
         }
         else{
             $acao = false;
@@ -141,7 +141,7 @@ class AntivirusController extends Controller
             $erro_fk = "Não foi possível apagar o registo";
             $show = $this->antivirus->find($id);
             $acao = false;
-            if($e->getCode()==23000){
+            if($e->getCode()==23000){ // integridade referencial(23000)
                 $erro_fk = "Registo em uso! Não foi possível apagar o registo";
                 return view('painel.antivirus.show_antivirus', compact('show', 'acao'))->withErrors($erro_fk);
             }

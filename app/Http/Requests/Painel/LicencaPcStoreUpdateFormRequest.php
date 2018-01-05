@@ -27,7 +27,7 @@ class LicencaPcStoreUpdateFormRequest extends FormRequest
             'apc_serial_antiv'        => 'required',
             'apc_serial_pc'           => 'required',
             'apc_data_registo'        => 'required',
-            'apc_validade'            => 'required',
+            'apc_validade'            => 'required|numeric',
             'apc_marca_antiv'         => 'required',
         ];
     }
@@ -35,11 +35,11 @@ class LicencaPcStoreUpdateFormRequest extends FormRequest
     {
         $required = "Campo de preenchimento obrigatorio!";
         return [
-            'apc_serial_antiv.required'        => $required,
-            'apc_serial_pc.required' => $required,
-            'apc_data_registo.required' => $required,
-            'apc_validade.required' => $required,
-            'apc_marca_antiv.required' => $required,
+            'apc_serial_antiv.required'        => 'O serial é obrigatório!',
+            'apc_serial_pc.required' => 'O serial do PC é obrigatório!',
+            'apc_data_registo.required' => 'A data de registo é obrigatória. Dia/Mês/Ano!',
+            'apc_validade.required' => 'A validade é obrigatória. (Número inteiro > 0)!',
+            'apc_marca_antiv.required' => 'O antivírus é obrigatório!',
         ];
     }
 

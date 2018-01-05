@@ -5,6 +5,7 @@
     <title>@yield('title')</title>
     <link href="{{ url('assets/painel/css/foundation.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/app.css') }}" rel="stylesheet">
+    <link href="{{ url('assets/painel/css/awesome-foundation6-checkbox.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/foundation-icons.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/dataTables.foundation.min.css') }}" rel="stylesheet">
     <link href="{{ url('assets/painel/css/select2-zurbfoundation5.css') }}" rel="stylesheet">
@@ -51,44 +52,61 @@
 
 </head>
 <body>
-@include('includes.header')
-@include('includes.nav')
+    @include('includes.header')
+    {{--@include('includes.nav')--}}
 
 
     <div class="espaco-vertical"></div>
     <div class="row">
         <div class="small-2 columns">
-            <div class="row">
-                <div class="small-12 columns ">
-                    <ul class="menu vertical">
-                        <li><h2><a href="{{route('licenca.index')}}"><button class="button expanded"><i class="fi-annotate"></i> Uso de Licença </button> </a> </h2></li>
-                        <li><h2><a href="{{route('usuario_pc.index')}}"><button class="button expanded"><i class="fi-torsos"></i> Usuários </button> </a> </h2></li>
-                        <li><h2><a href="{{route('antivirus.index')}}"><button class="button expanded"><i class="fi-shield"></i> Antivírus </button> </a> </h2></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="small-10 columns">
+
             <div class="row">
                 <div class="small-12 columns">
-                    @yield('content')
+                    <ul class="vertical dropdown menu blue" id="menu-syst-functionality" data-dropdown-menu>
+                        <li> <a href="{{route('licenca.index')}}" class="text-center c-white"> <i class="fi-annotate xlarge-i"></i><br> Uso de Licença </a> </li>
+                        <li class="is-dropdown-submenu-parent" style="color: #ffffff;"> <a href="{{route('usuario_pc.index')}}" class="text-center c-white"> <i    class="fi-torsos xlarge-i"></i><br>Usuários </a>
+
+                            <ul class="vertical menu nested blue" id="submenu-syst-functionality">
+                                <li><a href="{{route('usuario_pc.index')}}"><i class="fi-torso"></i>Usuário & </i>Serial de PC <i class="fi-monitor"></i></a></li>
+                                <li><a href="{{route('usuario_sistema.index')}}"><i class="fi-torsos"></i>Usuário Sistema </a></li>
+                                <li><a href="{{route('cargo.index')}}"><i class="fi-torso-business"></i>Cargo </a></li>
+                                <li class="is-dropdown-submenu-parent"><a href="{{route('tipo_usuario.index')}}"><i class="fi-torso-business"></i>
+                                    Tipo </a>
+                                    <ul class="vertical menu nested blue" id="submenu-syst-functionality">
+                                            <li><a href="{{route('tipo_usuario_permissao.create')}}">Tipo Usuário e Permissões</a></li>
+                                    </ul>
+                                </li>
+                                    <li><a href="{{route('permissao.index')}}"><i class="fi-torso-business"></i>
+                                        Permissões </a>
+                                    </li> 
+                                </ul>
+
+                            </li>
+                            <li> <a href="{{route('antivirus.index')}}" class="text-center c-white"> <i class="fi-shield xlarge-i"></i><br>Antivírus </a> </li>
+                            <li> <a href="{{route('prazo.index')}}" class="text-center c-white"> <i class="fi-shield xlarge-i"></i><br>Consultas </a> </li>
+
+                        </ul>
+                    </div>
                 </div>
             </div>
+            <div class="small-10 columns">
+                        @yield('content')
+            </div>
+
         </div>
 
-    </div>
 
 
 
-
-<script>
-    $(document).foundation();
-</script>
-<script type="text/javascript">
-    $.ajaxSetup({
-        headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
-    });
-</script>
-@include('includes.footer')
-</body>
-</html>
+        <script>
+            $(document).foundation();
+        </script>
+        <script type="text/javascript">
+            $.ajaxSetup({
+                headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+            });
+        </script>
+        <div class="espaco-vertical"></div>
+        @include('includes.footer')
+    </body>
+    </html>

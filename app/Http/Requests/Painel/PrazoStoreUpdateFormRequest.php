@@ -24,14 +24,15 @@ class PrazoStoreUpdateFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'dr_nome'=>'required|numeric',
+            'dr_nome'=>'required|numeric|unique:tbl_dias_remanescentes',
         ];
     }
 
     public function messages(){
         return [
-            'dr_nome.required'=>'O campo Dias eh de preenchimento obrigatorio!',
-            'dr_nome.numeric'=>'Apenas valores numericos sao permitidos!',
+            'dr_nome.required'=>'O campo Dias é de preenchimento obrigatório!',
+            'dr_nome.numeric'=>'Apenas valores numéricos são permitidos!',
+            'dr_nome.unique'=>'Número já existente!',
         ];
     }
 }

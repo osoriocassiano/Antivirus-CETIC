@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Painel;
 
-use App\Http\Requests\Painel\PrazoStoreUpdateFormRequest;
+
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use App\Http\Controllers\Controller;
 use App\Model\Painel\PrazoModel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class PrazoController extends Controller
 {
@@ -18,12 +19,20 @@ class PrazoController extends Controller
      */
     private $prazo;
 
-    public function __construct(PrazoModel $prazo){
+    public function __construct(PrazoModel $prazo)
+    {
         $this->prazo = $prazo;
+
     }
+
     public function index()
     {
-        //
+
+        /*if (Gate::denies('gerir_usuario')){
+            dd("Sem acesso!");
+        }else{
+            dd("Acesso concedido!");
+        }*/
         $prazos = $this->prazo->all();
         //$prazos = DB::table('tbl_dias_remanescentes')->get();
         return view('painel.prazo.index_prazo', compact('prazos'));
@@ -43,7 +52,7 @@ class PrazoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(PrazoStoreUpdateFormRequest $request)
@@ -52,19 +61,18 @@ class PrazoController extends Controller
         $dataForm = $request->all();
 
         //
-/*        $this->validate($request, $this->prazo->rules);
-        $validator = validator($dataForm, $this->prazo->rules);
-        if( $validator->fails()){
-            return redirect()->route('prazo.create')->withErrors($validator)->withInput();
-        }*/
+        /*        $this->validate($request, $this->prazo->rules);
+                $validator = validator($dataForm, $this->prazo->rules);
+                if( $validator->fails()){
+                    return redirect()->route('prazo.create')->withErrors($validator)->withInput();
+                }*/
 
         $cadastro = $this->prazo->create($dataForm);
 
-        if($cadastro){
+        if ($cadastro) {
             $sucesso = "Registo inserido com sucesso!";
             return redirect()->route('prazo.index')->withErrors($sucesso);
-        }
-        else{
+        } else {
             $erro = "Não foi possível inserir o registo!";
             return redirect()->route('prazo.create')->withErrors($erro);
         }
@@ -73,33 +81,33 @@ class PrazoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
     {
         //
-/*
+        /*
 
-        return view('painel.prazo.show_prazo', compact('show'));*/
+                return view('painel.prazo.show_prazo', compact('show'));*/
         $show = $this->prazo->find($id);
         $acao = $request->input('acao');
         $title = "Detalhes do Prazo";
 
-        if($acao){
-            return view('painel.prazo.show_prazo', compact('acao','show', 'title'));
-        }
-        else{
+        if ($acao) {
+            return view('painel.prazo.show_prazo', compact('acao', 'show', 'title'));
+        } else {
             $acao = false;
-            return view('painel.prazo.show_prazo', compact('acao','show', 'title'));
+            return view('painel.prazo.show_prazo', compact('acao', 'show', 'title'));
         }
 
         //return "Mostrar {$acao}{$id}";
     }
+
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -117,8 +125,8 @@ class PrazoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(PrazoStoreUpdateFormRequest $request, $id)
@@ -129,10 +137,9 @@ class PrazoController extends Controller
 
         $update = $prazo->update($dataForm);
 
-        if($update){
+        if ($update) {
             return redirect()->route('prazo.index');
-        }
-        else{
+        } else {
             return redirect()->route('prazo.edit', $id)->with(['errors' => 'Erro ao Editar']);
         }
     }
@@ -140,7 +147,7 @@ class PrazoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -148,25 +155,23 @@ class PrazoController extends Controller
         //
         $prazo = $this->prazo->find($id);
 
-        try{
+        try {
             $delete = $prazo->delete();
 
-            if($delete){
+            if ($delete) {
                 return redirect()->route('prazo.index');
-            }
-            else{
+            } else {
                 $erro = "Erro ao apagar";
                 return redirect()->route('prazo.index')->withErrors($erro);
             }
-        }catch (QueryException $e){
+        } catch (QueryException $e) {
             $erro_fk = "Não foi possível apagar o registo";
             $show = $this->prazo->find($id);
             $acao = false;
-            if($e->getCode()==23000){
+            if ($e->getCode() == 23000) {
                 $erro_fk = "Registo em uso! Não foi possível apagar o registo";
                 return view('painel.prazo.show_prazo', compact('show', 'acao'))->withErrors($erro_fk);
-            }
-            else{
+            } else {
                 return view('painel.prazo.show_prazo', compact('show', 'acao'))->withErrors($erro_fk);
             }
         }

@@ -42,26 +42,41 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name'         => 'required|max:255',
-            'email'        => 'required|email|max:255|unique:tbl_usuario_sistema',
-            'password'     => 'required|min:6|confirmed',
-            'us_apelido'   => 'required|max:255',
-            'us_cargo'     => 'required|max:255',
-            'us_tipo'      => 'required|max:255',
-            'username'   => 'required|max:255',
-        ]);
+            'name' => 'required|min:3|alpha|max:255',
+            'email' => 'required|email|max:255|unique:tbl_usuario_sistema',
+            'password' => 'required|min:6|confirmed',
+            'us_apelido' => 'required|min:3|alpha|max:255',
+            'us_cargo' => 'required|max:255',
+            'us_tipo' => 'required|max:255',
+            'username' => 'required|max:255',
+        ],
+            [   'name.required' => 'O Nome é obrigatório!',
+                'name.alpha' => 'Caracteres alfabéticos permitidos!',
+                'name.min' => 'Permitidos pelo menos três caracteres!',
+                'us_apelido.required' => 'O Apelido é obrigatório!',
+                'us_apelido.alpha' => 'Caracteres alfabéticos permitidos!',
+                'us_apelido.min' => 'Permitidos pelo menos três caracteres!',
+                'us_cargo.required' => 'O Cargo é obrigatório!',
+                'us_tipo.required' => 'O Tipo de Usuario é obrigatório!',
+                'email.required' => 'O Email é obrigatório!',
+                'email.email' => 'Introduza um nome válido!',
+                'email.unique' => 'Email já existente na base de dados.',
+                'password.required' => 'A Senha é obrigatória!',
+                'password.min' => 'A Senha deve ser de pelo menos 6 caracteres!',
+                'password.confirmed' => 'As senhas não são compatíveis!',
+            ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)

@@ -4,19 +4,7 @@
     Antivírus
 @endsection
 @section('content')
-    <div class="row">
-        <div class="small-12 columns">
-            <ul class="menu">
-                <li>
-                    <a href="{{route('antivirus.index')}}" class="small button"> Marca </a>
-                </li>
-                <li>
-                    <a href="{{route('prazo.index')}}" class="small button"> Dias de Consulta </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="espaco-vertical"></div>
+
     <div class="row">
         <div class="small-12 medium-6 columns">
             <a href="{{route('antivirus.create')}}" class="small button"><i class="fi-plus"></i> Marca </a>
@@ -37,7 +25,7 @@
                     </button>
                 </div>
             @endif
-            <table id="mostrar" class="hover">
+            <table id="mostrar" class="hover tbl_mostrar">
                 <thead>
                 <tr>
                     <th>Marca</th>
@@ -51,10 +39,16 @@
                         <td class="top-bar-right">
                             {!! Form::open(['route'=>['antivirus.show', $antiv->mar_ant_codigo], 'method'=>'GET']) !!}
                             {!! Form::hidden('acao', true) !!}
-                            {!! Form::button('<i class="fi-eye"></i>', ['type'=>'submit', 'class'=>'tiny secondary button']) !!}
-                            <a href="{{route('antivirus.edit', $antiv->mar_ant_codigo)}}" class="tiny success button"><i class="fi-pencil"></i> </a>
-                            <a href="{{route('antivirus.show', $antiv->mar_ant_codigo)}}" class="tiny alert button"><i class="fi-trash"></i> </a>
+                            <ul class="menu">
+                                <li>{!! Form::button('<i class="fi-eye"></i>', ['type'=>'submit', 'class'=>'tiny secondary button']) !!}</li>
+                                <li><span><a href="{{route('antivirus.edit', $antiv->mar_ant_codigo)}}"
+                                             class="tiny success button"><i class="fi-pencil"></i> </a></span></li>
+                                <li><span><a href="{{route('antivirus.show', $antiv->mar_ant_codigo)}}"
+                                             class="tiny alert button"><i class="fi-trash"></i> </a></span></li>
+                            </ul>
                             {!! Form::close() !!}
+
+
                         </td>
                     </tr>
                 @endforeach
@@ -62,5 +56,4 @@
             </table>
         </div>
     </div>
-
 @endsection

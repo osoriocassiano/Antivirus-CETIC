@@ -6,6 +6,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Painel\TipoUsuarioModel;
+use App\Model\Painel\PermissaoModel;
 use App\Http\Requests\Painel\TipoUsuarioPcStoreUpdateFormRequest;
 
 
@@ -13,9 +14,11 @@ use App\Http\Requests\Painel\TipoUsuarioPcStoreUpdateFormRequest;
 class TipoUsuarioController extends Controller
 {
     private $tipo_usuario;
+    private $permissaoes;
 
-    public function __construct(TipoUsuarioModel $tipoUsuarioModel){
+    public function __construct(TipoUsuarioModel $tipoUsuarioModel, PermissaoModel $perissaoModel){
         $this->tipo_usuario = $tipoUsuarioModel;
+        $this->permissoes = $perissaoModel;
     }
     /**
      * Display a listing of the resource.
@@ -24,9 +27,7 @@ class TipoUsuarioController extends Controller
      */
     public function index()
     {
-        //
         $tipo_usuario = $this->tipo_usuario->all();
-        //$prazos = DB::table('tbl_dias_remanescentes')->get();
         return view('painel.tipo_usuario.index_tipo_usuario', compact('tipo_usuario'));
     }
 
@@ -38,8 +39,10 @@ class TipoUsuarioController extends Controller
     public function create()
     {
         //
-        return view('painel.tipo_usuario.create_edit_tipo_usuario');
+        $permissoes = $this->permissoes->all();
+        return view('painel.tipo_usuario.create_edit_tipo_usuario', compact('permissoes'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -73,7 +76,7 @@ class TipoUsuarioController extends Controller
     public function show(Request $request, $id)
     {
         //
-        $show = $this->tipo_usuario->find($id);
+        $show = $this->tipo_usuario->where('tpu_codigo', $id)->with('permissoes')->first();
         $acao = $request->input('acao');
         $title = "Detalhes do Tipo";
 
@@ -96,13 +99,16 @@ class TipoUsuarioController extends Controller
     public function edit($id)
     {
         //
-        $tipo_usuario = $this->tipo_usuario->find($id);
+        $permissoes = $this->permissoes->all();
+
+        $tipo_usuario = $this->tipo_usuario->where('tpu_codigo', $id)->with('permissoes')->first();
+
 
         //Deine o titulo da pagina
         $title = "Editando $tipo_usuario->tpu_nome";
 
         //Retorna a view com os dados a serem editados
-        return view('painel.tipo_usuario.create_edit_tipo_usuario', compact('tipo_usuario', 'title'));
+        return view('painel.tipo_usuario.create_edit_tipo_usuario', compact('tipo_usuario', 'permissoes', 'title'));
     }
 
     /**
@@ -115,12 +121,19 @@ class TipoUsuarioController extends Controller
     public function update(TipoUsuarioPcStoreUpdateFormRequest $request, $id)
     {
         //
+        $permissoes = $request->check;
         $dataForm = $request->all();
+
         $tipo_usuario = $this->tipo_usuario->find($id);
+        
 
         $update = $tipo_usuario->update($dataForm);
 
         if($update){
+
+            $tipo_usuario->permissoes()->detach();
+            $tipo_usuario->permissoes()->attach($permissoes);
+
             $sucesso = "Registo actualizado com sucesso!";
             return redirect()->route('tipo_usuario.index')->withErrors($sucesso);
         }

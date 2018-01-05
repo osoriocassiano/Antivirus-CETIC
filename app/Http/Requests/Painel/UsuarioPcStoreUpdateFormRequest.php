@@ -24,18 +24,20 @@ class UsuarioPcStoreUpdateFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'uc_nome' => 'required',
-            'uc_apelido' => 'required',
+            'uc_nome' => 'required|min:3',
+            'uc_apelido' => 'required|min:3',
             'uc_serial' => 'required',
             'uc_data_registo' => 'required',
         ];
     }
     public function messages(){
             return [
-                'uc_nome.required' => 'O campo Nome e de preenchimento obrigatorio',
-                'uc_apelido.required' => 'O campo Apelido e de preenchimento obrigatorio',
-                'uc_serial.required' => 'O campo Serial do PC e de preenchimento obrigatorio',
-                'uc_data_registo.required' => 'O campo Data de Registo e de preenchimento obrigatorio',
+                'uc_nome.required' => 'Nome obrigatório. (Carateres alfanúmericos)!',
+                'uc_nome.min' => 'Nome deve conter pelo menos três caracteres!',
+                'uc_apelido.required' => 'Apelido obrigatório. (Carateres alfanúmericos)!',
+                'uc_apelido.min' => 'Nome deve conter pelo menos três caracteres!',
+                'uc_serial.required' => 'O Serial do PC é obrigatório!',
+                'uc_data_registo.required' => 'O campo Data do Registo é obrigatória!',
             ];
 
     }

@@ -29,6 +29,16 @@ Route::group(['namespace'=>'Painel', 'middleware'=>'auth'], function(){
     Route::resource('/prazo', 'PrazoController');
     Route::resource('/cargo', 'CargoController');
     Route::resource('/tipo_usuario', 'TipoUsuarioController');
+    Route::resource('/permissao', 'PermissaoController');
+    Route::resource('/tipo_usuario_permissao', 'TipoUsuarioPermissaoController');
+
+
+
+});
+
+Route::group(['namespace'=>'Testes', 'middleware'=>'auth'], function(){
+
+    Route::resource('/teste_permissao', 'TestePermissaoController');
 
 
 
@@ -40,3 +50,5 @@ Route::group(['namespace'=>'Painel', 'middleware'=>'auth'], function(){
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::resource('/usuario_comum', 'PainelComum\PainelComum');
